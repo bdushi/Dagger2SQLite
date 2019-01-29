@@ -29,15 +29,15 @@ import static com.example.dagger2sqlite.database.UserHelper.users;
 public abstract class DatabaseModule {
     @Provides
     @Singleton
-    public static SharedPreferences providesSharedPreferences(Context context) {
+    public static SharedPreferences providesSharedPreferencesprovidesSharedPreferences(Context context) {
         return context.getSharedPreferences("demo_pref", Context.MODE_PRIVATE);
     }
 
-    @Provides
+    /*@Provides
     @Singleton
     public static SQLiteDatabase providesSQLiteDatabase(Context context) {
         return providesDatabaseHelper(context).getWritableDatabase();
-    }
+    }*/
 
     @Provides
     @Singleton
