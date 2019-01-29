@@ -7,14 +7,13 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import androidx.annotation.NonNull;
 
 @Singleton
 public class UserRepository implements UserDataSource {
 
     private final UserDataSource userDataSource;
     @Inject
-    public UserRepository(@NonNull UserDataSource userDataSource) {
+    public UserRepository(UserDataSource userDataSource) {
         this.userDataSource = userDataSource;
     }
 

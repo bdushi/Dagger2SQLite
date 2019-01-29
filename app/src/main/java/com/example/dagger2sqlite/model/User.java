@@ -1,8 +1,15 @@
 package com.example.dagger2sqlite.model;
 
+import androidx.annotation.NonNull;
+
 public class User {
     private long id;
     private String username;
+
+    public User() {}
+    public User(String username) {
+        this.username = username;
+    }
 
     public long getId() {
         return id;
@@ -18,5 +25,11 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return id + "-" + username;
     }
 }
