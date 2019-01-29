@@ -1,8 +1,10 @@
 package com.example.dagger2sqlite;
 
 import androidx.appcompat.app.AppCompatActivity;
+import dagger.android.support.DaggerAppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 
 import com.example.dagger2sqlite.model.User;
@@ -12,7 +14,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 
-public class MainActivity extends AppCompatActivity implements MainContract.View {
+public class MainActivity extends DaggerAppCompatActivity implements MainContract.View {
     @Inject
     public MainPresenter mainPresenter;
 
@@ -23,7 +25,20 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //presenter.insert(new User("bruno"));
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                presenter.insert(new User("bruno"));
+                presenter.insert(new User("bruno"));
+                presenter.insert(new User("bruno"));
+                presenter.insert(new User("bruno"));
+                presenter.insert(new User("bruno"));
+                presenter.insert(new User("bruno"));
+                presenter.insert(new User("bruno"));
+                presenter.insert(new User("bruno"));
+                presenter.insert(new User("bruno"));
+            }
+        }, 1000);
     }
 
     @Override

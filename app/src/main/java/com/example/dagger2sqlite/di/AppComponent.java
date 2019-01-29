@@ -2,10 +2,13 @@ package com.example.dagger2sqlite.di;
 
 import android.app.Application;
 
+import com.example.dagger2sqlite.MyApplication;
+
 import javax.inject.Singleton;
 
 import dagger.BindsInstance;
 import dagger.Component;
+import dagger.android.AndroidInjector;
 import dagger.android.support.AndroidSupportInjectionModule;
 
 @Singleton
@@ -14,7 +17,7 @@ import dagger.android.support.AndroidSupportInjectionModule;
         DatabaseModule.class,
         AndroidSupportInjectionModule.class,
         ActivityBindingModule.class})
-public interface AppComponent {
+public interface AppComponent extends AndroidInjector<MyApplication> {
     void inject(Application application);
     @Component.Builder
     interface Builder {

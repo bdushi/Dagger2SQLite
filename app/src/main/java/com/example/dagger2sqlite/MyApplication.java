@@ -13,33 +13,11 @@ import androidx.annotation.VisibleForTesting;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
+import dagger.android.support.DaggerApplication;
 
-public class MyApplication extends Application implements HasActivityInjector {
-    AppComponent appComponent;
-    @Inject
-    public UserRepository userRepository;
-    @Inject
-    public DispatchingAndroidInjector<Activity> activityDispatchingAndroidInjector;
+public class MyApplication extends DaggerApplication implements HasActivityInjector {
     @Override
-    public void onCreate() {
-        super.onCreate();
-        appComponent = DaggerAppComponent.builder().application(this).build();
-        appComponent.inject(this);
-        //DaggerAppComponent.builder().application(this).build().inject(this);
-
-    }
-
-    public AppComponent getAppComponent(){
-        return appComponent;
-    }
-
-    @Override
-    public AndroidInjector<Activity> activityInjector() {
-        return activityDispatchingAndroidInjector;
-    }
-
-    @VisibleForTesting
-    public UserRepository userRepository() {
-        return userRepository;
+    protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
+        return DaggerAppComponent.builder().application(this).build();
     }
 }
