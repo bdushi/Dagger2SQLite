@@ -4,7 +4,6 @@ import android.app.Application;
 
 import javax.inject.Singleton;
 
-import androidx.appcompat.app.AppCompatActivity;
 import dagger.BindsInstance;
 import dagger.Component;
 import dagger.android.support.AndroidSupportInjectionModule;
@@ -16,7 +15,6 @@ import dagger.android.support.AndroidSupportInjectionModule;
         AndroidSupportInjectionModule.class,
         ActivityBindingModule.class})
 public interface AppComponent {
-    void inject(AppCompatActivity appCompatActivity);
     void inject(Application application);
     @Component.Builder
     interface Builder {

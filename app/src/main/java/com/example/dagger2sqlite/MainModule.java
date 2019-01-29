@@ -6,6 +6,8 @@ import dagger.Module;
 
 @Module
 public abstract class MainModule {
+    /*@Binds
+    abstract AppCompatActivity bindBaseActivity(MainActivity activity);*/
     @Binds
-    abstract AppCompatActivity bindBaseActivity(MainActivity activity);
+    abstract MainContract.Presenter mainPresenter(MainPresenter mainPresenter);
 }

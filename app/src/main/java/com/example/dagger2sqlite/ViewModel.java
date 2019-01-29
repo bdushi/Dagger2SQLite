@@ -16,8 +16,8 @@ public class ViewModel extends androidx.lifecycle.ViewModel {
         this.userRepository = userRepository;
     }
 
-    public void insertUser(User user) {
-        userRepository.insertUser(user);
+    public long insertUser(User user) {
+        return userRepository.insert(user);
     }
 
     public List<User> getUsers() {

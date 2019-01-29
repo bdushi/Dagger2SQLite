@@ -66,8 +66,8 @@ public abstract class DatabaseModule {
     public static UserDao provideUserDao(final SQLiteOpenHelper db) {
         return new UserDao() {
             @Override
-            public void insertUser(User user) {
-                insert(db.getWritableDatabase(), user);
+            public long insertUser(User user) {
+                return insert(db.getWritableDatabase(), user);
             }
 
             @Override

@@ -18,8 +18,8 @@ public class UserRepository implements UserDataSource {
     }
 
     @Override
-    public void insertUser(User user) {
-        userDataSource.insertUser(user);
+    public long insert(User user) {
+        return userDataSource.insert(user);
     }
 
     @Override

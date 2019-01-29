@@ -16,8 +16,8 @@ public class UserLocalDataSource implements UserDataSource {
     }
 
     @Override
-    public void insertUser(User user) {
-        userDao.insertUser(user);
+    public long insert(User user) {
+        return userDao.insertUser(user);
     }
 
     @Override
