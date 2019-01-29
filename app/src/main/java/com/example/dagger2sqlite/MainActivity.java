@@ -13,13 +13,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 
-public class MainActivity extends DaggerAppCompatActivity implements MainContract.View {
+public class MainActivity extends DaggerAppCompatActivity {
     @Inject
-    public MainPresenter mainPresenter;
-
-    @Inject
-    public MainContract.Presenter presenter;
-
+    public ViewModel viewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,44 +23,18 @@ public class MainActivity extends DaggerAppCompatActivity implements MainContrac
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                presenter.insert(new User("bruno"));
-                presenter.insert(new User("bruno"));
-                presenter.insert(new User("bruno"));
-                presenter.insert(new User("bruno"));
-                presenter.insert(new User("bruno"));
-                presenter.insert(new User("bruno"));
-                presenter.insert(new User("bruno"));
-                presenter.insert(new User("bruno"));
-                presenter.insert(new User("bruno"));
+                viewModel.insert(new User("bruno"));
+                viewModel.insert(new User("bruno"));
+                viewModel.insert(new User("bruno"));
+                viewModel.insert(new User("bruno"));
+                viewModel.insert(new User("bruno"));
+                viewModel.insert(new User("bruno"));
+                viewModel.insert(new User("bruno"));
+                viewModel.insert(new User("bruno"));
+                viewModel.insert(new User("bruno"));
             }
         }, 1000);
-    }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        mainPresenter.clear();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mainPresenter.takeView(this);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mainPresenter.dropView();
-    }
-
-    @Override
-    public void setLoadingIndicator(boolean active) {
-        //Show Progress
-    }
-
-    @Override
-    public void users(List<User> users) {
-        Log.i(MainActivity.class.getName(), users.toString());
+        Log.i(MainActivity.class.getName(), viewModel.getUsers().toString());
     }
 }
