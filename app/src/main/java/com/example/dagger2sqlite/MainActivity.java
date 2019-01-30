@@ -1,6 +1,5 @@
 package com.example.dagger2sqlite;
 
-import dagger.android.AndroidInjection;
 import dagger.android.support.DaggerAppCompatActivity;
 
 import android.os.Bundle;
