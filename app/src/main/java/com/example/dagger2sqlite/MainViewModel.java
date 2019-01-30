@@ -5,10 +5,13 @@ import com.example.dagger2sqlite.model.User;
 
 import java.util.List;
 
-public class ViewModel extends androidx.lifecycle.ViewModel {
+import androidx.lifecycle.ViewModel;
+
+public class MainViewModel extends ViewModel {
+
     public final UserRepository userRepository;
 
-    public ViewModel (UserRepository userRepository) {
+    public MainViewModel(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

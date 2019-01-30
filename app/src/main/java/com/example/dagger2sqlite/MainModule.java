@@ -2,16 +2,20 @@ package com.example.dagger2sqlite;
 
 import com.example.dagger2sqlite.database.UserRepository;
 
+import androidx.lifecycle.ViewModelProvider;
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 
 @Module
 public class MainModule {
-    /*@Binds
-    public abstract UserRepository bindBaseActivity(ViewModel userRepository);*/
     @Provides
-    public ViewModel bindBaseActivity(UserRepository userRepository) {
-        return new ViewModel(userRepository);
+    public MainViewModel bindBaseActivity(UserRepository userRepository) {
+        return new MainViewModel(userRepository);
     }
+
+    /*@Provides
+    public ViewModelProvider.Factory bindBaseActivity(MainViewModel mainViewModel) {
+        return new ViewModelProviderFactory<>(mainViewModel);
+    }*/
 }
