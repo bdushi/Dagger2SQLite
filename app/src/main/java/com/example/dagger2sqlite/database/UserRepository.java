@@ -1,5 +1,6 @@
 package com.example.dagger2sqlite.database;
 
+import com.example.dagger2sqlite.di.ActivityScoped;
 import com.example.dagger2sqlite.model.User;
 
 import java.util.List;
@@ -9,7 +10,8 @@ import javax.inject.Singleton;
 
 import androidx.annotation.NonNull;
 
-@Singleton
+//@Singleton
+@ActivityScoped
 public class UserRepository implements UserDataSource {
 
     private final UserDataSource userDataSource;
