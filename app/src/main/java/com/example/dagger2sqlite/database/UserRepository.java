@@ -1,21 +1,14 @@
 package com.example.dagger2sqlite.database;
 
-import com.example.dagger2sqlite.di.ActivityScoped;
 import com.example.dagger2sqlite.model.User;
 
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import androidx.annotation.NonNull;
 
-//@Singleton
-@ActivityScoped
 public class UserRepository implements UserDataSource {
 
     private final UserDataSource userDataSource;
-    @Inject
     public UserRepository(@NonNull UserDataSource userDataSource) {
         this.userDataSource = userDataSource;
     }

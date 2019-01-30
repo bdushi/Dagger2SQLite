@@ -9,10 +9,9 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class MainActivityModule {
-
+public abstract class MainActivityModule {
     /*@Binds
-    public abstract UserRepository bindBaseActivity(UserDataSource userDataSource);*/
+    abstract UserDataSource bindBaseActivity(UserRepository userRepository);*/
 
     @Provides
     public UserRepository bindBaseActivity(UserDataSource userDataSource) {

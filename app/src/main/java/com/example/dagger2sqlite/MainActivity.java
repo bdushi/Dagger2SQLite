@@ -21,6 +21,6 @@ public class MainActivity extends AppCompatActivity {
         //((MyApplication)getApplication()).getAppComponent().inject(this);
 
         setContentView(R.layout.activity_main);
-        userRepository.getUsers();
+        //userRepository.getUsers();
     }
 }
