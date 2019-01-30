@@ -4,9 +4,14 @@ import com.example.dagger2sqlite.database.UserRepository;
 
 import dagger.Binds;
 import dagger.Module;
+import dagger.Provides;
 
 @Module
-public abstract class MainModule {
-    @Binds
-    public abstract ViewModel bindBaseActivity(UserRepository userRepository);
+public class MainModule {
+    /*@Binds
+    public abstract UserRepository bindBaseActivity(ViewModel userRepository);*/
+    @Provides
+    public ViewModel bindBaseActivity(UserRepository userRepository) {
+        return new ViewModel(userRepository);
+    }
 }
