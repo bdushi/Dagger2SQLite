@@ -4,11 +4,16 @@ import com.example.dagger2sqlite.model.User;
 
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import androidx.annotation.NonNull;
 
+@Singleton
 public class UserRepository implements UserDataSource {
 
     private final UserDataSource userDataSource;
+    @Inject
     public UserRepository(@NonNull UserDataSource userDataSource) {
         this.userDataSource = userDataSource;
     }

@@ -11,8 +11,8 @@ import javax.inject.Inject;
 
 public class MainActivity extends AppCompatActivity {
 
-    @Inject
-    private UserRepository userRepository;
+    /*@Inject
+    private UserRepository userRepository;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
