@@ -16,7 +16,6 @@ public class ActivityModule {
     }
 
     @Provides
-    @Singleton
     Activity provideActivity() {
         return mActivity;
     }

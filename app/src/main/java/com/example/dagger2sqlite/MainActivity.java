@@ -1,6 +1,7 @@
 package com.example.dagger2sqlite;
 
 import androidx.appcompat.app.AppCompatActivity;
+import dagger.android.AndroidInjection;
 
 import android.os.Bundle;
 
@@ -16,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AndroidInjection.inject(this);
         //((MyApplication)getApplication()).getAppComponent().inject(this);
 
         setContentView(R.layout.activity_main);
