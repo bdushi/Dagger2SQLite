@@ -1,4 +1,4 @@
-package com.example.dagger2sqlite;
+package com.example.dagger2sqlite.ui;
 
 import com.example.dagger2sqlite.database.UserRepository;
 import com.example.dagger2sqlite.model.User;

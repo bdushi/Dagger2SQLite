@@ -1,4 +1,4 @@
-package com.example.dagger2sqlite;
+package com.example.dagger2sqlite.ui;
 
 import android.os.Handler;
 
@@ -9,7 +9,7 @@ import javax.inject.Inject;
 
 @ActivityScoped
 public class MainPresenter implements MainContract.Presenter {
-
+    private int i = 0;
     private MainContract.View mItemView;
     public final ViewModel viewModel;
     @Inject
@@ -18,8 +18,19 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public void insert(User user) {
-        viewModel.insertUser(user);
+    public int insert(final User user) {
+        if(mItemView != null)
+            mItemView.setLoadingIndicator(true);
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                for(i = 0; i < 100000; i++) {
+                    viewModel.insertUser(user);
+                }
+                mItemView.setLoadingIndicator(false);
+            }
+        });
+        return i;
     }
 
     @Override

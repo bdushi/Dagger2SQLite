@@ -2,21 +2,22 @@ package com.example.dagger2sqlite.di;
 
 import android.app.Application;
 
+import com.example.dagger2sqlite.MyApplication;
+
 import javax.inject.Singleton;
 
 import dagger.BindsInstance;
 import dagger.Component;
-import dagger.android.AndroidInjectionModule;
 import dagger.android.support.AndroidSupportInjectionModule;
 
 @Singleton
 @Component(modules = {
         AppModule.class,
         DatabaseModule.class,
-        AndroidInjectionModule.class,
+        AndroidSupportInjectionModule.class,
         ActivityBindingModule.class})
 public interface AppComponent {
-    void inject(Application application);
+    void inject(MyApplication application);
     @Component.Builder
     interface Builder {
         @BindsInstance

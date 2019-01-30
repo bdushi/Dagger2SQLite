@@ -1,5 +1,7 @@
-package com.example.dagger2sqlite;
+package com.example.dagger2sqlite.ui;
 
+import com.example.dagger2sqlite.BasePresenter;
+import com.example.dagger2sqlite.BaseView;
 import com.example.dagger2sqlite.model.User;
 
 import java.util.List;
@@ -13,6 +15,6 @@ public interface MainContract {
 
     //manage CRUD operation and UI item visibility (state)
     interface Presenter extends BasePresenter<View> {
-        void insert(User user);
+        int insert(User user);
     }
 }

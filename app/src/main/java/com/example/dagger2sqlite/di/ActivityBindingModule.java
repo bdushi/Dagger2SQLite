@@ -1,7 +1,7 @@
 package com.example.dagger2sqlite.di;
 
-import com.example.dagger2sqlite.MainActivity;
-import com.example.dagger2sqlite.MainModule;
+import com.example.dagger2sqlite.ui.MainActivity;
+import com.example.dagger2sqlite.ui.MainModule;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
