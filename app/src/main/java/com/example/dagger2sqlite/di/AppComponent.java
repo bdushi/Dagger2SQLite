@@ -8,14 +8,13 @@ import javax.inject.Singleton;
 
 import dagger.BindsInstance;
 import dagger.Component;
-import dagger.android.AndroidInjectionModule;
 import dagger.android.support.AndroidSupportInjectionModule;
 
 @Singleton
 @Component(modules = {
         AppModule.class,
         DatabaseModule.class,
-        AndroidInjectionModule.class,
+        AndroidSupportInjectionModule.class,
         ActivityBuilder.class})
 public interface AppComponent {
     //void inject(AppCompatActivity appCompatActivity);
