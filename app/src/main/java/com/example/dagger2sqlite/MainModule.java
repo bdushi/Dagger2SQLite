@@ -1,11 +1,12 @@
 package com.example.dagger2sqlite;
 
-import androidx.appcompat.app.AppCompatActivity;
+import com.example.dagger2sqlite.database.UserRepository;
+
 import dagger.Binds;
 import dagger.Module;
 
 @Module
 public abstract class MainModule {
     @Binds
-    abstract AppCompatActivity bindBaseActivity(MainActivity activity);
+    public abstract ViewModel bindBaseActivity(UserRepository userRepository);
 }
