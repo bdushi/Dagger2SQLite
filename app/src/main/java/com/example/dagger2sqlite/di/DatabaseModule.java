@@ -64,7 +64,7 @@ public abstract class DatabaseModule {
 
     @Singleton
     @Provides
-    public static UserDao provideTasksDao(final SQLiteOpenHelper db) {
+    public static UserDao provideUserDao(final SQLiteOpenHelper db) {
         return new UserDao() {
             @Override
             public long insertUser(User user) {

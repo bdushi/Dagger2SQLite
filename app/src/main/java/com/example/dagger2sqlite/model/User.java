@@ -1,7 +1,10 @@
 package com.example.dagger2sqlite.model;
 
+import com.squareup.moshi.Json;
+
 public class User {
     private long id;
+    @Json(name = "UserName")
     private String username;
     public User(){}
 
