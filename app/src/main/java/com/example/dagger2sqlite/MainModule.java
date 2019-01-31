@@ -16,5 +16,5 @@ public abstract class MainModule {
     }*/
 
     @Binds
-    public abstract UserDataSource bindBaseActivity(MainViewModel mainViewModel);
+    public abstract UserDataSource bindBaseActivity(UserRepository userRepository);
 }

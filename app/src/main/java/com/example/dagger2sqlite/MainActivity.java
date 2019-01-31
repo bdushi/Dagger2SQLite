@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 
+import com.example.dagger2sqlite.database.UserRepository;
 import com.example.dagger2sqlite.model.User;
 
 import javax.inject.Inject;
@@ -13,7 +14,7 @@ import javax.inject.Inject;
 
 public class MainActivity extends DaggerAppCompatActivity {
     @Inject
-    public MainViewModel mainViewModel;
+    public UserRepository userRepository;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,18 +22,18 @@ public class MainActivity extends DaggerAppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mainViewModel.insert(new User("bruno"));
-                mainViewModel.insert(new User("bruno"));
-                mainViewModel.insert(new User("bruno"));
-                mainViewModel.insert(new User("bruno"));
-                mainViewModel.insert(new User("bruno"));
-                mainViewModel.insert(new User("bruno"));
-                mainViewModel.insert(new User("bruno"));
-                mainViewModel.insert(new User("bruno"));
-                mainViewModel.insert(new User("bruno"));
+                userRepository.insert(new User("bruno"));
+                userRepository.insert(new User("bruno"));
+                userRepository.insert(new User("bruno"));
+                userRepository.insert(new User("bruno"));
+                userRepository.insert(new User("bruno"));
+                userRepository.insert(new User("bruno"));
+                userRepository.insert(new User("bruno"));
+                userRepository.insert(new User("bruno"));
+                userRepository.insert(new User("bruno"));
             }
         }, 1000);
 
-        Log.i(MainActivity.class.getName(), mainViewModel.getUsers().toString());
+        Log.i(MainActivity.class.getName(), userRepository.getUsers().toString());
     }
 }
