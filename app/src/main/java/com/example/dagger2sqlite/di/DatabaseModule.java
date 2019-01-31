@@ -6,12 +6,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.dagger2sqlite.database.UserDao;
+import com.example.dagger2sqlite.database.UserDataSource;
+import com.example.dagger2sqlite.database.UserLocalDataSource;
 import com.example.dagger2sqlite.model.User;
 
 import java.util.List;
 
 import javax.inject.Singleton;
 
+import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 
@@ -36,6 +39,12 @@ public abstract class DatabaseModule {
         return new LocalDatabaseHelper(context).getWritableDatabase();
     }*/
 
+
+    @Singleton
+    @Binds
+    public abstract UserDataSource provideUserLocalDataSource(UserLocalDataSource dataSource);
+
+
     @Provides
     @Singleton
     public static SQLiteOpenHelper providesDatabaseHelper(Context context) {
@@ -58,8 +67,8 @@ public abstract class DatabaseModule {
     public static UserDao provideTasksDao(final SQLiteOpenHelper db) {
         return new UserDao() {
             @Override
-            public void insertUser(User user) {
-                insert(db.getWritableDatabase(), user);
+            public long insertUser(User user) {
+                return insert(db.getWritableDatabase(), user);
             }
 
             @Override

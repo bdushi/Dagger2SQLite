@@ -3,6 +3,11 @@ package com.example.dagger2sqlite.model;
 public class User {
     private long id;
     private String username;
+    public User(){}
+
+    public User(String username) {
+        this.username = username;
+    }
 
     public long getId() {
         return id;

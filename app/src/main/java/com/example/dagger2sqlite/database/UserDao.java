@@ -5,7 +5,7 @@ import com.example.dagger2sqlite.model.User;
 import java.util.List;
 
 public interface UserDao {
-    void insertUser(User user);
+    long insertUser(User user);
     void deleteUser(int index);
     void updateUser(User user);
     List<User> getUsers();

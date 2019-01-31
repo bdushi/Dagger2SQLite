@@ -20,4 +20,8 @@ public class MainViewModel extends ViewModel {
     public List<User> users() {
         return userRepository.getUsers();
     }
+
+    public long insert(User user) {
+        return userRepository.insertUser(user);
+    }
 }
