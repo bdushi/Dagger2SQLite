@@ -1,6 +1,5 @@
 package com.example.dagger2sqlite;
 
-import androidx.appcompat.app.AppCompatActivity;
 import dagger.Binds;
 import dagger.Module;
 
