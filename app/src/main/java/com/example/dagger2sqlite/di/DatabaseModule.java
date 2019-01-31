@@ -6,12 +6,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.dagger2sqlite.database.UserDao;
+import com.example.dagger2sqlite.database.UserDataSource;
+import com.example.dagger2sqlite.database.UserLocalDataSource;
 import com.example.dagger2sqlite.model.User;
 
 import java.util.List;
 
 import javax.inject.Singleton;
 
+import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 
@@ -35,6 +38,9 @@ public abstract class DatabaseModule {
     public static SQLiteDatabase providesSQLiteDatabase(Context context) {
         return new LocalDatabaseHelper(context).getWritableDatabase();
     }*/
+    @Singleton
+    @Binds
+    public abstract UserDataSource provideUserLocalDataSource(UserLocalDataSource dataSource);
 
     @Provides
     @Singleton
