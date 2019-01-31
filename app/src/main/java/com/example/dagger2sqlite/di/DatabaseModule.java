@@ -44,6 +44,12 @@ public abstract class DatabaseModule {
     @Binds
     public abstract UserDataSource provideUserLocalDataSource(UserLocalDataSource dataSource);
 
+    @Singleton
+    @Provides
+    public static User provideUser(UserLocalDataSource localDataSource) {
+        return localDataSource.getUser(1);
+    }
+
 
     @Provides
     @Singleton

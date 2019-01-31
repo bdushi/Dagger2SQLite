@@ -48,7 +48,10 @@ public class MainActivity extends AppCompatActivity {
         userService.users().enqueue(new Callback<User[]>() {
             @Override
             public void onResponse(@NotNull Call<User[]> call, @NotNull Response<User[]> response) {
-                Log.i(MainActivity.class.getName(), response.body().toString());
+                if(response.body() != null)
+                    Log.i(MainActivity.class.getName(), response.body().toString());
+                else
+                    Log.i(MainActivity.class.getName(), "Null");
             }
 
             @Override
