@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.preference.PreferenceManager;
 
 import com.example.dagger2sqlite.database.UserDao;
 import com.example.dagger2sqlite.database.UserDataSource;
@@ -27,10 +28,15 @@ import static com.example.dagger2sqlite.database.UserHelper.users;
 
 @Module
 public abstract class DatabaseModule {
+
+    @Singleton
+    @Binds
+    public abstract UserDataSource provideUserLocalDataSource(UserLocalDataSource dataSource);
+
     @Provides
     @Singleton
     public static SharedPreferences providesSharedPreferences(Context context) {
-        return context.getSharedPreferences("demo_pref", Context.MODE_PRIVATE);
+        return PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     /*@Provides
@@ -38,11 +44,6 @@ public abstract class DatabaseModule {
     public static SQLiteDatabase providesSQLiteDatabase(Context context) {
         return new LocalDatabaseHelper(context).getWritableDatabase();
     }*/
-
-
-    @Singleton
-    @Binds
-    public abstract UserDataSource provideUserLocalDataSource(UserLocalDataSource dataSource);
 
     @Singleton
     @Provides

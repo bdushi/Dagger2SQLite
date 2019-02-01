@@ -8,6 +8,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -26,6 +27,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Inject
     public UserService userService;
+
+    @Inject
+    User user;
+
+    @Inject
+    SharedPreferences sharedPreferences;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
