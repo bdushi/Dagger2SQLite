@@ -45,11 +45,11 @@ public abstract class DatabaseModule {
         return new LocalDatabaseHelper(context).getWritableDatabase();
     }*/
 
-    @Singleton
+    /*@Singleton
     @Provides
     public static User provideUser(UserLocalDataSource localDataSource) {
         return localDataSource.getUser(1);
-    }
+    }*/
 
 
     @Provides
@@ -64,7 +64,32 @@ public abstract class DatabaseModule {
 
             @Override
             public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+                /*if(oldVersion < 3) {
+                    db.execSQL(CREATE_USER_TABLE_TEMP);
+                    db.execSQL("INSERT INTO user_temp SELECT " +
+                            "_username, " +
+                            "'Bruno' AS _description, " +
+                            "'bruno' AS _password, " +
+                            "'hash' AS _hash, " +
+                            "'bruno' AS _sales_person, " +
+                            "1 AS _line_discount, " +
+                            "1 AS _invoice_discount, " +
+                            "1 AS _profile, " +
+                            "1 AS _not_active, " +
+                            "1 AS _web, " +
+                            "1 AS _not_active, " +
+                            "'12-12-2012' AS _creation_date, " +
+                            "1 AS _delete_status, " +
+                            "1 AS _edit_status, " +
+                            "1 AS _sales_order, " +
+                            "1 AS _sales_invoice, " +
+                            "1 AS _customer, " +
+                            "1 AS _inventory, " +
+                            "'bruno@bruno' AS _email " +
+                            "FROM user");
+                    db.execSQL("DROP TABLE user");
+                    db.execSQL("ALTER TABLE user_temp RENAME TO user");
+                }*/
             }
         };
     }

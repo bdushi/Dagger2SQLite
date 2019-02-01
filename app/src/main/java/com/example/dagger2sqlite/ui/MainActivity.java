@@ -32,16 +32,15 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     public ViewModelProvider.Factory mViewModelFactory;
 
-    @Inject
-    public UserService userService;
+    /*@Inject
+    public UserService userService;*/
 
-    @Inject
-    User user;
+    /*@Inject
+    User user;*/
 
     @Inject
     SharedPreferences sharedPreferences;
 
-    ///????
     @Inject
     AppExecutors appExecutors;
 
@@ -57,14 +56,42 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView items = findViewById(R.id.items);
         items.setLayoutManager(new LinearLayoutManager(this));
 
-        CustomAdapter customAdapter = new CustomAdapter<>(R.layout.user_single_item, new BindingInterface<User, UserSingleItemBinding>() {
+        CustomAdapter<User, UserSingleItemBinding> customAdapter = new CustomAdapter<>(R.layout.user_single_item, new BindingInterface<User, UserSingleItemBinding>() {
             @Override
             public void bindData(User model, UserSingleItemBinding binder) {
-                binder.setUser(user);
+                binder.setUser(model);
             }
         }, appExecutors);
         customAdapter.submitList(userViewModel.users());
         items.setAdapter(customAdapter);
+
+        appExecutors.diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                for(int i = 0; i < 1000000; i++){
+                    Log.i("MainActivity", String.valueOf(userViewModel.insert(new User(
+                            "bruno",
+                            "Bruno",
+                            "Bruno",
+                            "hash",
+                            "bruno",
+                            true,
+                            true,
+                            true,
+                            1,
+                            true,
+                            "12-12-2012",
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            "bruno@bruno.al")
+                    )));
+                }
+            }
+        });
         /*new Handler().post(new Runnable() {
             @Override
             public void run() {
@@ -75,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         });*/
         //Log.i(MainActivity.class.getName(), userViewModel.users().toString());
 
-        userService.users().enqueue(new Callback<User[]>() {
+        /*userService.users().enqueue(new Callback<User[]>() {
             @Override
             public void onResponse(@NotNull Call<User[]> call, @NotNull Response<User[]> response) {
                 if(response.body() != null)
@@ -88,6 +115,6 @@ public class MainActivity extends AppCompatActivity {
             public void onFailure(@NotNull Call<User[]> call, @NotNull Throwable t) {
                 Log.i(MainActivity.class.getName(), t.getMessage());
             }
-        });
+        });*/
     }
 }

@@ -12,14 +12,14 @@ import androidx.recyclerview.widget.ListAdapter;
 
 public abstract class DataBoundListAdapter<T, V extends ViewDataBinding> extends ListAdapter<T, DataBoundViewHolder<V>> {
 
-    protected DataBoundListAdapter(AppExecutors appExecutors, @NonNull DiffUtil.ItemCallback<T> diffCallback) {
+    DataBoundListAdapter(AppExecutors appExecutors, @NonNull DiffUtil.ItemCallback<T> diffCallback) {
         super(new AsyncDifferConfig.Builder<T>(diffCallback).setBackgroundThreadExecutor(appExecutors.diskIO()).build());
     }
 
     @NonNull
     @Override
     public DataBoundViewHolder<V> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new DataBoundViewHolder(createBinding(parent));
+        return new DataBoundViewHolder<>(createBinding(parent));
     }
 
     @Override

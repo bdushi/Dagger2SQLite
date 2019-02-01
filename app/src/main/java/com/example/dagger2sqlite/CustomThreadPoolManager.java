@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 
 public class CustomThreadPoolManager {
     private static CustomThreadPoolManager sInstance = null;
-    private static int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
+    private static final int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
     private static final int KEEP_ALIVE_TIME = 1;
     private static final TimeUnit KEEP_ALIVE_TIME_UNIT;
 
@@ -33,10 +33,10 @@ public class CustomThreadPoolManager {
     // Made constructor private to avoid the class being initiated from outside
     private CustomThreadPoolManager() {
         // initialize a queue for the thread pool. New tasks will be added to this queue
-        mTaskQueue = new LinkedBlockingQueue<Runnable>();
+        mTaskQueue = new LinkedBlockingQueue<>();
         mRunningTaskList = new ArrayList<>();
         mExecutorService = new ThreadPoolExecutor(NUMBER_OF_CORES,
-                NUMBER_OF_CORES*2,
+                NUMBER_OF_CORES,
                 KEEP_ALIVE_TIME,
                 KEEP_ALIVE_TIME_UNIT,
                 mTaskQueue,

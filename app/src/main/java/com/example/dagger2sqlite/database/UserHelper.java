@@ -9,15 +9,74 @@ import com.example.dagger2sqlite.model.User;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.dagger2sqlite.common.Common.intToBool;
+
 public abstract class UserHelper {
     private static final String ID = "_id";
     private static final String USERNAME = "_username";
+    private static final String DESCRIPTION = "_description";
+    private static final String PASSWORD = "_password";
+    private static final String HASH = "_hash";
+    private static final String SALES_PERSON = "_sales_person";
+    private static final String LINE_DISCOUNT = "_line_discount";
+    private static final String INVOICE_DISCOUNT = "_invoice_discount";
+    private static final String NOT_ACTIVE = "_not_active";
+    private static final String PROFILE = "_profile";
+    private static final String WEB = "_web";
+    private static final String CREATION_DATE = "_creation_date";
+    private static final String DELETE_STATUS = "_delete_status";
+    private static final String EDIT_STATUS = "_edit_status";
+    private static final String SALES_ORDER = "_sales_order";
+    private static final String SALES_INVOICE = "_sales_invoice";
+    private static final String CUSTOMER = "_customer";
+    private static final String INVENTORY = "_inventory";
+    private static final String EMAIL = "_email";
 
     private static final String USER = "user";
+    private static final String USER_TEMP = "user_temp";
+
 
     public static final String CREATE_USER_TABLE = "CREATE TABLE " + USER + "("
             + ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
-            + USERNAME + " TEXT"
+            + USERNAME + " TEXT,"
+            + DESCRIPTION + " TEXT,"
+            + PASSWORD + " TEXT,"
+            + HASH + " TEXT,"
+            + SALES_PERSON + " TEXT,"
+            + LINE_DISCOUNT + " INTEGER,"
+            + INVOICE_DISCOUNT + " TEXT,"
+            + NOT_ACTIVE + " INTEGER,"
+            + PROFILE + " INTEGER,"
+            + WEB + " INTEGER,"
+            + CREATION_DATE + " TEXT,"
+            + DELETE_STATUS + " INTEGER,"
+            + EDIT_STATUS + " INTEGER,"
+            + SALES_ORDER + " INTEGER,"
+            + SALES_INVOICE + " INTEGER,"
+            + CUSTOMER + " INTEGER,"
+            + INVENTORY + " INTEGER,"
+            + EMAIL + " TEXT"
+            + ")";
+    public static final String CREATE_USER_TABLE_TEMP = "CREATE TABLE " + USER_TEMP + "("
+            + ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+            + USERNAME + " TEXT,"
+            + DESCRIPTION + " TEXT,"
+            + PASSWORD + " TEXT,"
+            + HASH + " TEXT,"
+            + SALES_PERSON + " TEXT,"
+            + LINE_DISCOUNT + " INTEGER,"
+            + INVOICE_DISCOUNT + " TEXT,"
+            + NOT_ACTIVE + " INTEGER,"
+            + PROFILE + " INTEGER,"
+            + WEB + " INTEGER,"
+            + CREATION_DATE + " TEXT,"
+            + DELETE_STATUS + " INTEGER,"
+            + EDIT_STATUS + " INTEGER,"
+            + SALES_ORDER + " INTEGER,"
+            + SALES_INVOICE + " INTEGER,"
+            + CUSTOMER + " INTEGER,"
+            + INVENTORY + " INTEGER,"
+            + EMAIL + " TEXT"
             + ")";
 
     public static long insert(SQLiteDatabase sqLite, User user) {
@@ -65,6 +124,23 @@ public abstract class UserHelper {
     private static ContentValues userToContent(User user) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(USERNAME, user.getUsername());
+        contentValues.put(DESCRIPTION, user.getDescription());
+        contentValues.put(PASSWORD, user.getPassword());
+        contentValues.put(HASH, user.getHash());
+        contentValues.put(SALES_PERSON, user.getSalesPersonCode());
+        contentValues.put(LINE_DISCOUNT, user.isLineDiscount());
+        contentValues.put(INVOICE_DISCOUNT, user.isInvoiceDiscount());
+        contentValues.put(NOT_ACTIVE, user.isNotActive());
+        contentValues.put(PROFILE, user.getProfile());
+        contentValues.put(WEB, user.isWeb());
+        contentValues.put(CREATION_DATE, user.getCreationDate());
+        contentValues.put(DELETE_STATUS, user.isDeleteStatus());
+        contentValues.put(EDIT_STATUS, user.isEditStatus());
+        contentValues.put(SALES_ORDER, user.isSalesOrder());
+        contentValues.put(SALES_INVOICE, user.isSalesInvoice());
+        contentValues.put(CUSTOMER, user.isCustomer());
+        contentValues.put(INVENTORY, user.isInventory());
+        contentValues.put(EMAIL, user.getEmail());
         return contentValues;
     }
 
@@ -72,6 +148,21 @@ public abstract class UserHelper {
         User user = new User();
         user.setId(cursor.getLong(cursor.getColumnIndex(ID)));
         user.setUsername(cursor.getString(cursor.getColumnIndex(USERNAME)));
+        user.setDescription(cursor.getString(cursor.getColumnIndex(DESCRIPTION)));
+        user.setPassword(cursor.getString(cursor.getColumnIndex(PASSWORD)));
+        user.setHash(cursor.getString(cursor.getColumnIndex(HASH)));
+        user.setSalesPersonCode(cursor.getString(cursor.getColumnIndex(SALES_PERSON)));
+        user.setLineDiscount(intToBool(cursor.getInt(cursor.getColumnIndex(LINE_DISCOUNT))));
+        user.setNotActive(intToBool(cursor.getInt(cursor.getColumnIndex(NOT_ACTIVE))));
+        user.setProfile(cursor.getInt(cursor.getColumnIndex(PROFILE)));
+        user.setWeb(intToBool(cursor.getInt(cursor.getColumnIndex(WEB))));
+        user.setCreationDate(cursor.getString(cursor.getColumnIndex(CREATION_DATE)));
+        user.setDeleteStatus(intToBool(cursor.getInt(cursor.getColumnIndex(DELETE_STATUS))));
+        user.setEditStatus(intToBool(cursor.getInt(cursor.getColumnIndex(EDIT_STATUS))));
+        user.setSalesOrder(intToBool(cursor.getInt(cursor.getColumnIndex(SALES_ORDER))));
+        user.setSalesInvoice(intToBool(cursor.getInt(cursor.getColumnIndex(SALES_INVOICE))));
+        user.setCustomer(intToBool(cursor.getInt(cursor.getColumnIndex(CUSTOMER))));
+        user.setInventory(intToBool(cursor.getInt(cursor.getColumnIndex(INVENTORY))));
         return user;
     }
 }
