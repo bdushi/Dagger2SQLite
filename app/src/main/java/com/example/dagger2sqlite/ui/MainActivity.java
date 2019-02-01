@@ -1,8 +1,11 @@
 package com.example.dagger2sqlite.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import dagger.android.AndroidInjection;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -12,7 +15,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.dagger2sqlite.AppExecutors;
 import com.example.dagger2sqlite.R;
+import com.example.dagger2sqlite.common.BindingInterface;
+import com.example.dagger2sqlite.common.CustomAdapter;
+import com.example.dagger2sqlite.databinding.UserSingleItemBinding;
 import com.example.dagger2sqlite.model.User;
 import com.example.dagger2sqlite.services.UserService;
 
@@ -34,6 +41,10 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     SharedPreferences sharedPreferences;
 
+    ///????
+    @Inject
+    AppExecutors appExecutors;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +54,17 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         final MainViewModel userViewModel = ViewModelProviders.of(this, mViewModelFactory).get(MainViewModel.class);
+        RecyclerView items = findViewById(R.id.items);
+        items.setLayoutManager(new LinearLayoutManager(this));
+
+        CustomAdapter customAdapter = new CustomAdapter<>(R.layout.user_single_item, new BindingInterface<User, UserSingleItemBinding>() {
+            @Override
+            public void bindData(User model, UserSingleItemBinding binder) {
+                binder.setUser(user);
+            }
+        }, appExecutors);
+        customAdapter.submitList(userViewModel.users());
+        items.setAdapter(customAdapter);
         /*new Handler().post(new Runnable() {
             @Override
             public void run() {

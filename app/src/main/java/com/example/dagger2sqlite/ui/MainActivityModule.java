@@ -1,5 +1,7 @@
 package com.example.dagger2sqlite.ui;
 
+import com.example.dagger2sqlite.AppExecutors;
+import com.example.dagger2sqlite.CustomThreadPoolManager;
 import com.example.dagger2sqlite.ViewModelProviderFactory;
 import com.example.dagger2sqlite.database.UserRepository;
 
@@ -27,5 +29,10 @@ public class MainActivityModule {
     @Provides
     MainViewModel provideMainViewModel(UserRepository userRepository) {
         return new MainViewModel(userRepository);
+    }
+
+    @Provides
+    AppExecutors provideAppExecutors() {
+        return new AppExecutors(CustomThreadPoolManager.getsInstance().mExecutorService, CustomThreadPoolManager.getsInstance().mExecutorService, CustomThreadPoolManager.getsInstance().mExecutorService);
     }
 }
