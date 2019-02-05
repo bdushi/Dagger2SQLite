@@ -3,12 +3,14 @@ package com.example.dagger2sqlite.database;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 
 import com.example.dagger2sqlite.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.dagger2sqlite.common.Common.boolToInt;
 import static com.example.dagger2sqlite.common.Common.intToBool;
 
 public abstract class UserHelper {
@@ -33,31 +35,9 @@ public abstract class UserHelper {
     private static final String EMAIL = "_email";
 
     private static final String USER = "user";
-    private static final String USER_TEMP = "user_temp";
 
 
     public static final String CREATE_USER_TABLE = "CREATE TABLE " + USER + "("
-            + ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
-            + USERNAME + " TEXT,"
-            + DESCRIPTION + " TEXT,"
-            + PASSWORD + " TEXT,"
-            + HASH + " TEXT,"
-            + SALES_PERSON + " TEXT,"
-            + LINE_DISCOUNT + " INTEGER,"
-            + INVOICE_DISCOUNT + " TEXT,"
-            + NOT_ACTIVE + " INTEGER,"
-            + PROFILE + " INTEGER,"
-            + WEB + " INTEGER,"
-            + CREATION_DATE + " TEXT,"
-            + DELETE_STATUS + " INTEGER,"
-            + EDIT_STATUS + " INTEGER,"
-            + SALES_ORDER + " INTEGER,"
-            + SALES_INVOICE + " INTEGER,"
-            + CUSTOMER + " INTEGER,"
-            + INVENTORY + " INTEGER,"
-            + EMAIL + " TEXT"
-            + ")";
-    public static final String CREATE_USER_TABLE_TEMP = "CREATE TABLE " + USER_TEMP + "("
             + ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
             + USERNAME + " TEXT,"
             + DESCRIPTION + " TEXT,"
@@ -153,6 +133,7 @@ public abstract class UserHelper {
         user.setHash(cursor.getString(cursor.getColumnIndex(HASH)));
         user.setSalesPersonCode(cursor.getString(cursor.getColumnIndex(SALES_PERSON)));
         user.setLineDiscount(intToBool(cursor.getInt(cursor.getColumnIndex(LINE_DISCOUNT))));
+        user.setInvoiceDiscount(intToBool(cursor.getInt(cursor.getColumnIndex(INVOICE_DISCOUNT))));
         user.setNotActive(intToBool(cursor.getInt(cursor.getColumnIndex(NOT_ACTIVE))));
         user.setProfile(cursor.getInt(cursor.getColumnIndex(PROFILE)));
         user.setWeb(intToBool(cursor.getInt(cursor.getColumnIndex(WEB))));
@@ -163,6 +144,51 @@ public abstract class UserHelper {
         user.setSalesInvoice(intToBool(cursor.getInt(cursor.getColumnIndex(SALES_INVOICE))));
         user.setCustomer(intToBool(cursor.getInt(cursor.getColumnIndex(CUSTOMER))));
         user.setInventory(intToBool(cursor.getInt(cursor.getColumnIndex(INVENTORY))));
+        user.setEmail(cursor.getString(cursor.getColumnIndex(EMAIL)));
         return user;
+    }
+
+    public static final String INSERT_USER = "INSERT INTO " + USER + "("
+            + DESCRIPTION + ", "
+            + USERNAME + ", "
+            + PASSWORD + ", "
+            + HASH + ", "
+            + SALES_PERSON + ", "
+            + LINE_DISCOUNT + ", "
+            + INVOICE_DISCOUNT + ", "
+            + NOT_ACTIVE + ", "
+            + PROFILE + ", "
+            + WEB + ", "
+            + CREATION_DATE + ", "
+            + DELETE_STATUS + ", "
+            + EDIT_STATUS + ", "
+            + SALES_ORDER + ", "
+            + SALES_INVOICE + ", "
+            + CUSTOMER + ", "
+            + INVENTORY + ", "
+            + EMAIL +
+            ")"
+            + " VALUES(?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18)";
+
+    public static long bindUser(SQLiteStatement sqLiteStatement, User user) {
+        sqLiteStatement.bindString(1, user.getDescription());
+        sqLiteStatement.bindString(2, user.getUsername());
+        sqLiteStatement.bindString(3, user.getPassword());
+        sqLiteStatement.bindString(4, user.getHash());
+        sqLiteStatement.bindString(5, user.getSalesPersonCode());
+        sqLiteStatement.bindLong(6, boolToInt(user.isLineDiscount()));
+        sqLiteStatement.bindDouble(7, boolToInt(user.isInvoiceDiscount()));
+        sqLiteStatement.bindLong(8, boolToInt(user.isNotActive()));
+        sqLiteStatement.bindLong(9, user.getProfile());
+        sqLiteStatement.bindDouble(10, boolToInt(user.isWeb()));
+        sqLiteStatement.bindString(11, user.getCreationDate());
+        sqLiteStatement.bindDouble(12, boolToInt(user.isDeleteStatus()));
+        sqLiteStatement.bindLong(13, boolToInt(user.isEditStatus()));
+        sqLiteStatement.bindLong(14, boolToInt(user.isSalesOrder()));
+        sqLiteStatement.bindLong(15, boolToInt(user.isSalesInvoice()));
+        sqLiteStatement.bindLong(16, boolToInt(user.isCustomer()));
+        sqLiteStatement.bindLong(17, boolToInt(user.isInventory()));
+        sqLiteStatement.bindString(18, user.getEmail());
+        return sqLiteStatement.executeInsert();
     }
 }

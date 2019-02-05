@@ -64,34 +64,32 @@ public class MainActivity extends AppCompatActivity {
         }, appExecutors);
         customAdapter.submitList(userViewModel.users());
         items.setAdapter(customAdapter);
+        userViewModel.insert(new User(
+                        "bruno",
+                        "Bruno",
+                        "Bruno",
+                        "hash",
+                        "bruno",
+                        true,
+                        true,
+                        true,
+                        1,
+                        true,
+                        "12-12-2012",
+                        true,
+                        true,
+                        true,
+                        true,
+                        true,
+                        true,
+                        "bruno@bruno.al"));
 
-        appExecutors.diskIO().execute(new Runnable() {
+        /*appExecutors.diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                for(int i = 0; i < 1000000; i++){
-                    Log.i("MainActivity", String.valueOf(userViewModel.insert(new User(
-                            "bruno",
-                            "Bruno",
-                            "Bruno",
-                            "hash",
-                            "bruno",
-                            true,
-                            true,
-                            true,
-                            1,
-                            true,
-                            "12-12-2012",
-                            true,
-                            true,
-                            true,
-                            true,
-                            true,
-                            true,
-                            "bruno@bruno.al")
-                    )));
-                }
+
             }
-        });
+        });*/
         /*new Handler().post(new Runnable() {
             @Override
             public void run() {

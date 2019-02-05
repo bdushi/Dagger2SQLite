@@ -30,9 +30,4 @@ public class MainActivityModule {
     MainViewModel provideMainViewModel(UserRepository userRepository) {
         return new MainViewModel(userRepository);
     }
-
-    @Provides
-    AppExecutors provideAppExecutors() {
-        return new AppExecutors(CustomThreadPoolManager.getsInstance().mExecutorService, CustomThreadPoolManager.getsInstance().mExecutorService, CustomThreadPoolManager.getsInstance().mExecutorService);
-    }
 }

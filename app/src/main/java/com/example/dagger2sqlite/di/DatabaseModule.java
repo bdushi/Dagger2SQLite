@@ -4,8 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
+import com.example.dagger2sqlite.AppExecutors;
+import com.example.dagger2sqlite.CustomThreadPoolManager;
 import com.example.dagger2sqlite.database.UserDao;
 import com.example.dagger2sqlite.database.UserDataSource;
 import com.example.dagger2sqlite.database.UserLocalDataSource;
@@ -20,6 +24,8 @@ import dagger.Module;
 import dagger.Provides;
 
 import static com.example.dagger2sqlite.database.UserHelper.CREATE_USER_TABLE;
+import static com.example.dagger2sqlite.database.UserHelper.INSERT_USER;
+import static com.example.dagger2sqlite.database.UserHelper.bindUser;
 import static com.example.dagger2sqlite.database.UserHelper.delete;
 import static com.example.dagger2sqlite.database.UserHelper.insert;
 import static com.example.dagger2sqlite.database.UserHelper.update;
@@ -37,6 +43,12 @@ public abstract class DatabaseModule {
     @Singleton
     public static SharedPreferences providesSharedPreferences(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
+    }
+
+    @Provides
+    @Singleton
+    public static AppExecutors provideAppExecutors() {
+        return new AppExecutors(CustomThreadPoolManager.getsInstance().mExecutorService, CustomThreadPoolManager.getsInstance().mExecutorService, CustomThreadPoolManager.getsInstance().mExecutorService);
     }
 
     /*@Provides
@@ -96,11 +108,22 @@ public abstract class DatabaseModule {
 
     @Singleton
     @Provides
-    public static UserDao provideUserDao(final SQLiteOpenHelper db) {
+    public static UserDao provideUserDao(final SQLiteOpenHelper db, final AppExecutors appExecutors) {
         return new UserDao() {
             @Override
-            public long insertUser(User user) {
-                return insert(db.getWritableDatabase(), user);
+            public long insertUser(final User user) {
+                //return insert(db.getWritableDatabase(), user);
+                //long id = 0;
+                final SQLiteStatement sqLiteStatement = db.getWritableDatabase().compileStatement(INSERT_USER);
+                appExecutors.diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        for(int i = 0; i < 1000000; i++) {
+                            Log.i("MainActivity", String.valueOf(bindUser(sqLiteStatement, user)));
+                        }
+                    }
+                });
+                return 0;
             }
 
             @Override
@@ -124,5 +147,4 @@ public abstract class DatabaseModule {
             }
         };
     }
-
 }
