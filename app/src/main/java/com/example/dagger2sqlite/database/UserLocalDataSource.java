@@ -21,6 +21,16 @@ public class UserLocalDataSource implements UserDataSource {
     }
 
     @Override
+    public long insertUsers(User... users) {
+        return userDao.insertUsers(users);
+    }
+
+    @Override
+    public long insertUsers(List<User> users) {
+        return userDao.insertUsers(users);
+    }
+
+    @Override
     public void deleteUser(int index) {
         userDao.deleteUser(index);
     }

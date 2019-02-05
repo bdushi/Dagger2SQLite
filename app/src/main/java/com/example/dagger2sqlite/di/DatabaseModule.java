@@ -48,14 +48,14 @@ public abstract class DatabaseModule {
     @Provides
     @Singleton
     public static AppExecutors provideAppExecutors() {
-        return new AppExecutors(CustomThreadPoolManager.getsInstance().mExecutorService, CustomThreadPoolManager.getsInstance().mExecutorService, CustomThreadPoolManager.getsInstance().mExecutorService);
+        return new AppExecutors();
     }
 
-    /*@Provides
+    @Provides
     @Singleton
-    public static SQLiteDatabase providesSQLiteDatabase(Context context) {
-        return new LocalDatabaseHelper(context).getWritableDatabase();
-    }*/
+    public static SQLiteDatabase providesSQLiteDatabase(SQLiteOpenHelper sqLiteOpenHelper) {
+        return sqLiteOpenHelper.getWritableDatabase();
+    }
 
     /*@Singleton
     @Provides
@@ -108,42 +108,49 @@ public abstract class DatabaseModule {
 
     @Singleton
     @Provides
-    public static UserDao provideUserDao(final SQLiteOpenHelper db, final AppExecutors appExecutors) {
+    public static UserDao provideUserDao(final SQLiteDatabase sqLiteDatabase) {
         return new UserDao() {
             @Override
             public long insertUser(final User user) {
-                //return insert(db.getWritableDatabase(), user);
-                //long id = 0;
-                final SQLiteStatement sqLiteStatement = db.getWritableDatabase().compileStatement(INSERT_USER);
-                appExecutors.diskIO().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        for(int i = 0; i < 1000000; i++) {
-                            Log.i("MainActivity", String.valueOf(bindUser(sqLiteStatement, user)));
-                        }
-                    }
-                });
-                return 0;
+                return bindUser(sqLiteDatabase.compileStatement(INSERT_USER), user);
+            }
+
+            @Override
+            public long insertUsers(User... users) {
+                long id = 0;
+                for(User user: users) {
+                    id = bindUser(sqLiteDatabase.compileStatement(INSERT_USER), user);
+                }
+                return id;
+            }
+
+            @Override
+            public long insertUsers(List<User> users) {
+                long id = 0;
+                for(User user: users) {
+                    id = bindUser(sqLiteDatabase.compileStatement(INSERT_USER), user);
+                }
+                return id;
             }
 
             @Override
             public void deleteUser(int id) {
-                delete(db.getWritableDatabase(), id);
+                delete(sqLiteDatabase, id);
             }
 
             @Override
             public void updateUser(User user) {
-                update(db.getWritableDatabase(), user);
+                update(sqLiteDatabase, user);
             }
 
             @Override
             public List<User> getUsers() {
-                return users(db.getReadableDatabase());
+                return users(sqLiteDatabase);
             }
 
             @Override
             public User getUser(int id) {
-                return user(db.getReadableDatabase(), id);
+                return user(sqLiteDatabase, id);
             }
         };
     }

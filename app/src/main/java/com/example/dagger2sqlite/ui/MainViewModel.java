@@ -1,5 +1,6 @@
 package com.example.dagger2sqlite.ui;
 
+import com.example.dagger2sqlite.AppExecutors;
 import com.example.dagger2sqlite.database.UserRepository;
 import com.example.dagger2sqlite.model.User;
 
@@ -21,7 +22,10 @@ public class MainViewModel extends ViewModel {
         return userRepository.getUsers();
     }
 
-    public long insert(User user) {
-        return userRepository.insertUser(user);
+    public void insert(User user) {
+        userRepository.insertUser(user);
+    }
+    public void inserts(final User[] users) {
+        userRepository.insertUsers(users);
     }
 }

@@ -1,6 +1,10 @@
 package com.example.dagger2sqlite.database;
 
+import android.util.Log;
+
+import com.example.dagger2sqlite.AppExecutors;
 import com.example.dagger2sqlite.model.User;
+import com.example.dagger2sqlite.ui.MainActivity;
 
 import java.util.List;
 
@@ -10,35 +14,60 @@ import javax.inject.Singleton;
 import androidx.annotation.NonNull;
 
 @Singleton
-public class UserRepository implements UserDataSource {
+public class UserRepository {
 
     private final UserDataSource userDataSource;
+    private final AppExecutors appExecutors;
     @Inject
-    public UserRepository(@NonNull UserDataSource userDataSource) {
+    public UserRepository(@NonNull UserDataSource userDataSource, @NonNull AppExecutors appExecutors) {
         this.userDataSource = userDataSource;
+        this.appExecutors = appExecutors;
     }
 
-    @Override
-    public long insertUser(User user) {
-        return userDataSource.insertUser(user);
+    public void insertUser(final User user) {
+        appExecutors.diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                Log.i(UserRepository.class.getName(), String.valueOf(userDataSource.insertUser(user)));
+            }
+        });
     }
 
-    @Override
-    public void deleteUser(int index) {
-        userDataSource.deleteUser(index);
+    public void insertUsers(final User... users) {
+        appExecutors.diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                userDataSource.insertUsers(users);
+            }
+        });
     }
 
-    @Override
+    public void insertUsers(final List<User> users) {
+        appExecutors.diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                userDataSource.insertUsers(users);
+            }
+        });
+    }
+
+    public void deleteUser(final int index) {
+        appExecutors.diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                userDataSource.deleteUser(index);
+            }
+        });
+    }
+
     public void updateUser(User user) {
         userDataSource.updateUser(user);
     }
 
-    @Override
     public List<User> getUsers() {
         return userDataSource.getUsers();
     }
 
-    @Override
     public User getUser(int index) {
         return userDataSource.getUser(index);
     }

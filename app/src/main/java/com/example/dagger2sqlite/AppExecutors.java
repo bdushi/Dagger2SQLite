@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -15,10 +16,10 @@ public class AppExecutors {
     private final Executor mainThread;
 
     @Inject
-    public AppExecutors(Executor diskIO, Executor networkIO, Executor mainThread) {
-        this.diskIO = diskIO;
-        this.networkIO = networkIO;
-        this.mainThread = mainThread;
+    public AppExecutors() {
+        this.diskIO = Executors.newFixedThreadPool(3);
+        this.networkIO = Executors.newSingleThreadExecutor();
+        this.mainThread = new MainThreadExecutor();
     }
 
     public Executor diskIO() {
