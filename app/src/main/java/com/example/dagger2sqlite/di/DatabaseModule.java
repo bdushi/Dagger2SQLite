@@ -33,11 +33,11 @@ public abstract class DatabaseModule {
         return context.getSharedPreferences("demo_pref", Context.MODE_PRIVATE);
     }
 
-    /*@Provides
+    @Provides
     @Singleton
-    public static SQLiteDatabase providesSQLiteDatabase(Context context) {
-        return new LocalDatabaseHelper(context).getWritableDatabase();
-    }*/
+    public static SQLiteDatabase providesSQLiteDatabase(SQLiteOpenHelper sqLiteOpenHelper) {
+        return sqLiteOpenHelper.getWritableDatabase();
+    }
     @Singleton
     @Binds
     public abstract UserDataSource provideUserLocalDataSource(UserLocalDataSource dataSource);
@@ -61,31 +61,31 @@ public abstract class DatabaseModule {
 
     @Singleton
     @Provides
-    public static UserDao provideTasksDao(final SQLiteOpenHelper db) {
+    public static UserDao provideTasksDao(final SQLiteDatabase sqLite) {
         return new UserDao() {
             @Override
             public void insertUser(User user) {
-                insert(db.getWritableDatabase(), user);
+                insert(sqLite, user);
             }
 
             @Override
             public void deleteUser(int id) {
-                delete(db.getWritableDatabase(), id);
+                delete(sqLite, id);
             }
 
             @Override
             public void updateUser(User user) {
-                update(db.getWritableDatabase(), user);
+                update(sqLite, user);
             }
 
             @Override
             public List<User> getUsers() {
-                return users(db.getReadableDatabase());
+                return users(sqLite);
             }
 
             @Override
             public User getUser(int id) {
-                return user(db.getReadableDatabase(), id);
+                return user(sqLite, id);
             }
         };
     }
