@@ -4,15 +4,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteStatement;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.example.dagger2sqlite.AppExecutors;
-import com.example.dagger2sqlite.CustomThreadPoolManager;
 import com.example.dagger2sqlite.database.UserDao;
 import com.example.dagger2sqlite.database.UserDataSource;
+import com.example.dagger2sqlite.database.UserHelper;
 import com.example.dagger2sqlite.database.UserLocalDataSource;
+import com.example.dagger2sqlite.executors.Resource;
 import com.example.dagger2sqlite.model.User;
 
 import java.util.List;
@@ -27,10 +26,10 @@ import static com.example.dagger2sqlite.database.UserHelper.CREATE_USER_TABLE;
 import static com.example.dagger2sqlite.database.UserHelper.INSERT_USER;
 import static com.example.dagger2sqlite.database.UserHelper.bindUser;
 import static com.example.dagger2sqlite.database.UserHelper.delete;
-import static com.example.dagger2sqlite.database.UserHelper.insert;
 import static com.example.dagger2sqlite.database.UserHelper.update;
 import static com.example.dagger2sqlite.database.UserHelper.user;
 import static com.example.dagger2sqlite.database.UserHelper.users;
+import static com.example.dagger2sqlite.executors.Resource.success;
 
 @Module
 public abstract class DatabaseModule {
@@ -144,8 +143,8 @@ public abstract class DatabaseModule {
             }
 
             @Override
-            public List<User> getUsers() {
-                return users(sqLiteDatabase);
+            public List<User> users() {
+                return UserHelper.users(sqLiteDatabase);
             }
 
             @Override
