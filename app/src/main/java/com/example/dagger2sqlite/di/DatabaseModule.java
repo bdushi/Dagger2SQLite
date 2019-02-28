@@ -11,7 +11,6 @@ import com.example.dagger2sqlite.database.UserDao;
 import com.example.dagger2sqlite.database.UserDataSource;
 import com.example.dagger2sqlite.database.UserHelper;
 import com.example.dagger2sqlite.database.UserLocalDataSource;
-import com.example.dagger2sqlite.executors.Resource;
 import com.example.dagger2sqlite.model.User;
 
 import java.util.List;
@@ -21,9 +20,6 @@ import javax.inject.Singleton;
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
-import io.reactivex.Flowable;
-import io.reactivex.FlowableEmitter;
-import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeEmitter;
 import io.reactivex.MaybeOnSubscribe;
@@ -40,8 +36,6 @@ import static com.example.dagger2sqlite.database.UserHelper.bindUser;
 import static com.example.dagger2sqlite.database.UserHelper.delete;
 import static com.example.dagger2sqlite.database.UserHelper.update;
 import static com.example.dagger2sqlite.database.UserHelper.user;
-import static com.example.dagger2sqlite.database.UserHelper.users;
-import static com.example.dagger2sqlite.executors.Resource.success;
 
 @Module
 public abstract class DatabaseModule {

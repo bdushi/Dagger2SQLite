@@ -10,7 +10,6 @@ import io.reactivex.functions.Consumer;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.example.dagger2sqlite.AppExecutors;
 import com.example.dagger2sqlite.R;
@@ -28,9 +27,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Inject
     public ViewModelProvider.Factory mViewModelFactory;
-
-    /*@Inject
-    public UserService userService;*/
 
     /*@Inject
     User user;*/

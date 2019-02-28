@@ -1,10 +1,6 @@
 package com.example.dagger2sqlite.executors;
 
 import androidx.annotation.MainThread;
-import androidx.annotation.WorkerThread;
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Single;
 
 public abstract class Dispatcher<T> {
