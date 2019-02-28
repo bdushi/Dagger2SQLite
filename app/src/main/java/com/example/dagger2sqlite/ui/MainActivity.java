@@ -20,13 +20,7 @@ import com.example.dagger2sqlite.R;
 import com.example.dagger2sqlite.common.BindingInterface;
 import com.example.dagger2sqlite.common.CustomAdapter;
 import com.example.dagger2sqlite.databinding.UserSingleItemBinding;
-import com.example.dagger2sqlite.executors.Resource;
 import com.example.dagger2sqlite.model.User;
-import com.example.dagger2sqlite.services.UserService;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -34,9 +28,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Inject
     public ViewModelProvider.Factory mViewModelFactory;
-
-    /*@Inject
-    public UserService userService;*/
 
     /*@Inject
     User user;*/

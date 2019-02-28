@@ -1,6 +1,5 @@
 package com.example.dagger2sqlite.database;
 
-import com.example.dagger2sqlite.executors.Resource;
 import com.example.dagger2sqlite.model.User;
 
 import java.util.List;
