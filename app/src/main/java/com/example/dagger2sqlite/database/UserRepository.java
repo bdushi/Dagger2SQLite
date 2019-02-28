@@ -8,6 +8,8 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import androidx.annotation.NonNull;
+import io.reactivex.Observable;
+import io.reactivex.Single;
 
 @Singleton
 public class UserRepository {
@@ -26,8 +28,8 @@ public class UserRepository {
         userDataSource.insertUsers(users);
     }
 
-    public void insertUsers(final List<User> users) {
-        userDataSource.insertUsers(users);
+    public Observable<Long> insertUsers(final List<User> users) {
+        return userDataSource.insertUsers(users);
     }
 
     public void deleteUser(final int index) {
@@ -38,11 +40,22 @@ public class UserRepository {
         userDataSource.updateUser(user);
     }
 
-    public List<User> users() {
+    public Single<List<User>> users() {
         return userDataSource.users();
     }
 
-    public User getUser(int index) {
+    public Single<User> getUser(final int index) {
         return userDataSource.getUser(index);
+        /*return new Dispatcher<User>() {
+            @Override
+            protected Single<User> load() {
+                return Single.create(new SingleOnSubscribe<User>() {
+                    @Override
+                    public void subscribe(SingleEmitter<User> e) throws Exception {
+                        userDataSource.getUser(index);
+                    }
+                });
+            }
+        }.load();*/
     }
 }

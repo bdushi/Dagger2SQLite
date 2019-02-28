@@ -59,15 +59,11 @@ public abstract class UserHelper {
             + EMAIL + " TEXT"
             + ")";
 
-    public static long insert(SQLiteDatabase sqLite, User user) {
-        return sqLite.replace(USER, null, userToContent(user));
-    }
-
-    public static long delete(SQLiteDatabase sqLite, long id) {
+    public static int delete(SQLiteDatabase sqLite, long id) {
         return sqLite.delete(USER, "id=?", new String[]{String.valueOf(id)});
     }
 
-    public static long update(SQLiteDatabase sqLite, User user) {
+    public static int update(SQLiteDatabase sqLite, User user) {
         return sqLite.update(USER, userToContent(user),"id=?", new String[]{String.valueOf(user.getId())});
     }
 
@@ -93,12 +89,6 @@ public abstract class UserHelper {
         }
         cursor.close();
         return users;
-    }
-
-    public static void inserts(SQLiteDatabase sqLite, User... users) {
-        for(User user : users) {
-            sqLite.replace(USER, null, userToContent(user));
-        }
     }
 
     private static ContentValues userToContent(User user) {

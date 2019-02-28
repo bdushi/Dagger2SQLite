@@ -1,15 +1,12 @@
 package com.example.dagger2sqlite.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import dagger.android.AndroidInjection;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.functions.Consumer;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -20,12 +17,9 @@ import com.example.dagger2sqlite.R;
 import com.example.dagger2sqlite.common.BindingInterface;
 import com.example.dagger2sqlite.common.CustomAdapter;
 import com.example.dagger2sqlite.databinding.UserSingleItemBinding;
-import com.example.dagger2sqlite.executors.Resource;
 import com.example.dagger2sqlite.model.User;
-import com.example.dagger2sqlite.services.UserService;
 
-import org.jetbrains.annotations.NotNull;
-
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -56,23 +50,61 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         final MainViewModel userViewModel = ViewModelProviders.of(this, mViewModelFactory).get(MainViewModel.class);
-        RecyclerView items = findViewById(R.id.items);
+        final RecyclerView items = findViewById(R.id.items);
         items.setLayoutManager(new LinearLayoutManager(this));
 
-        CustomAdapter<User, UserSingleItemBinding> customAdapter = new CustomAdapter<>(R.layout.user_single_item, new BindingInterface<User, UserSingleItemBinding>() {
+        final CustomAdapter<User, UserSingleItemBinding> customAdapter = new CustomAdapter<>(R.layout.user_single_item, new BindingInterface<User, UserSingleItemBinding>() {
             @Override
             public void bindData(User model, UserSingleItemBinding binder) {
                 binder.setUser(model);
             }
         }, appExecutors);
-        customAdapter.submitList(userViewModel.users());
-        items.setAdapter(customAdapter);
-        userViewModel.usersList().execute(new Runnable() {
+
+        userViewModel.users().subscribe(new Consumer<List<User>>() {
             @Override
-            public void run() {
+            public void accept(List<User> users) {
+                customAdapter.submitList(users);
+                items.setAdapter(customAdapter);
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) {
 
             }
         });
+
+        List<User> users = new ArrayList<>();
+        users.add(new User("bruno", "Bruno", "Bruno", "hash", "bruno", true, true, true, 1, true, "12-12-2012", true, true, true, true, true, true, "bruno@bruno.al"));
+        users.add(new User("bruno", "Bruno", "Bruno", "hash", "bruno", true, true, true, 1, true, "12-12-2012", true, true, true, true, true, true, "bruno@bruno.al"));
+        users.add(new User("bruno", "Bruno", "Bruno", "hash", "bruno", true, true, true, 1, true, "12-12-2012", true, true, true, true, true, true, "bruno@bruno.al"));
+        users.add(new User("bruno", "Bruno", "Bruno", "hash", "bruno", true, true, true, 1, true, "12-12-2012", true, true, true, true, true, true, "bruno@bruno.al"));
+        users.add(new User("bruno", "Bruno", "Bruno", "hash", "bruno", true, true, true, 1, true, "12-12-2012", true, true, true, true, true, true, "bruno@bruno.al"));
+        users.add(new User("bruno", "Bruno", "Bruno", "hash", "bruno", true, true, true, 1, true, "12-12-2012", true, true, true, true, true, true, "bruno@bruno.al"));
+        users.add(new User("bruno", "Bruno", "Bruno", "hash", "bruno", true, true, true, 1, true, "12-12-2012", true, true, true, true, true, true, "bruno@bruno.al"));
+        users.add(new User("bruno", "Bruno", "Bruno", "hash", "bruno", true, true, true, 1, true, "12-12-2012", true, true, true, true, true, true, "bruno@bruno.al"));
+        users.add(new User("bruno", "Bruno", "Bruno", "hash", "bruno", true, true, true, 1, true, "12-12-2012", true, true, true, true, true, true, "bruno@bruno.al"));
+        users.add(new User("bruno", "Bruno", "Bruno", "hash", "bruno", true, true, true, 1, true, "12-12-2012", true, true, true, true, true, true, "bruno@bruno.al"));
+        users.add(new User("bruno", "Bruno", "Bruno", "hash", "bruno", true, true, true, 1, true, "12-12-2012", true, true, true, true, true, true, "bruno@bruno.al"));
+        users.add(new User("bruno", "Bruno", "Bruno", "hash", "bruno", true, true, true, 1, true, "12-12-2012", true, true, true, true, true, true, "bruno@bruno.al"));
+        users.add(new User("bruno", "Bruno", "Bruno", "hash", "bruno", true, true, true, 1, true, "12-12-2012", true, true, true, true, true, true, "bruno@bruno.al"));
+        users.add(new User("bruno", "Bruno", "Bruno", "hash", "bruno", true, true, true, 1, true, "12-12-2012", true, true, true, true, true, true, "bruno@bruno.al"));
+        users.add(new User("bruno", "Bruno", "Bruno", "hash", "bruno", true, true, true, 1, true, "12-12-2012", true, true, true, true, true, true, "bruno@bruno.al"));
+        users.add(new User("bruno", "Bruno", "Bruno", "hash", "bruno", true, true, true, 1, true, "12-12-2012", true, true, true, true, true, true, "bruno@bruno.al"));
+        users.add(new User("bruno", "Bruno", "Bruno", "hash", "bruno", true, true, true, 1, true, "12-12-2012", true, true, true, true, true, true, "bruno@bruno.al"));
+        users.add(new User("bruno", "Bruno", "Bruno", "hash", "bruno", true, true, true, 1, true, "12-12-2012", true, true, true, true, true, true, "bruno@bruno.al"));
+        users.add(new User("bruno", "Bruno", "Bruno", "hash", "bruno", true, true, true, 1, true, "12-12-2012", true, true, true, true, true, true, "bruno@bruno.al"));
+        users.add(new User("bruno", "Bruno", "Bruno", "hash", "bruno", true, true, true, 1, true, "12-12-2012", true, true, true, true, true, true, "bruno@bruno.al"));
+        users.add(new User("bruno", "Bruno", "Bruno", "hash", "bruno", true, true, true, 1, true, "12-12-2012", true, true, true, true, true, true, "bruno@bruno.al"));
+        users.add(new User("bruno", "Bruno", "Bruno", "hash", "bruno", true, true, true, 1, true, "12-12-2012", true, true, true, true, true, true, "bruno@bruno.al"));
+        users.add(new User("bruno", "Bruno", "Bruno", "hash", "bruno", true, true, true, 1, true, "12-12-2012", true, true, true, true, true, true, "bruno@bruno.al"));
+        users.add(new User("bruno", "Bruno", "Bruno", "hash", "bruno", true, true, true, 1, true, "12-12-2012", true, true, true, true, true, true, "bruno@bruno.al"));
+        users.add(new User("bruno", "Bruno", "Bruno", "hash", "bruno", true, true, true, 1, true, "12-12-2012", true, true, true, true, true, true, "bruno@bruno.al"));
+        users.add(new User("bruno", "Bruno", "Bruno", "hash", "bruno", true, true, true, 1, true, "12-12-2012", true, true, true, true, true, true, "bruno@bruno.al"));
+        users.add(new User("bruno", "Bruno", "Bruno", "hash", "bruno", true, true, true, 1, true, "12-12-2012", true, true, true, true, true, true, "bruno@bruno.al"));
+        users.add(new User("bruno", "Bruno", "Bruno", "hash", "bruno", true, true, true, 1, true, "12-12-2012", true, true, true, true, true, true, "bruno@bruno.al"));
+        users.add(new User("bruno", "Bruno", "Bruno", "hash", "bruno", true, true, true, 1, true, "12-12-2012", true, true, true, true, true, true, "bruno@bruno.al"));
+
+        userViewModel.insert(users);
         userViewModel.insert(new User(
                         "bruno",
                         "Bruno",

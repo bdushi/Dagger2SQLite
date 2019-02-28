@@ -7,6 +7,10 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+
 @Singleton
 public class UserLocalDataSource implements UserDataSource {
     private final UserDao userDao;
@@ -16,37 +20,37 @@ public class UserLocalDataSource implements UserDataSource {
     }
 
     @Override
-    public long insertUser(User user) {
+    public Maybe<Long> insertUser(User user) {
         return userDao.insertUser(user);
     }
 
     @Override
-    public long insertUsers(User... users) {
+    public Observable<Long> insertUsers(User... users) {
         return userDao.insertUsers(users);
     }
 
     @Override
-    public long insertUsers(List<User> users) {
+    public Observable<Long> insertUsers(List<User> users) {
         return userDao.insertUsers(users);
     }
 
     @Override
-    public void deleteUser(int index) {
-        userDao.deleteUser(index);
+    public Single<Integer> deleteUser(int index) {
+        return userDao.deleteUser(index);
     }
 
     @Override
-    public void updateUser(User user) {
-        userDao.updateUser(user);
+    public Single<Integer> updateUser(User user) {
+        return userDao.updateUser(user);
     }
 
     @Override
-    public List<User> users() {
+    public Single<List<User>> users() {
         return userDao.users();
     }
 
     @Override
-    public User getUser(int index) {
+    public Single<User> getUser(int index) {
         return userDao.getUser(index);
     }
 }

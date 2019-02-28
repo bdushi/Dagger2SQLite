@@ -2,6 +2,10 @@ package com.example.dagger2sqlite.executors;
 
 import androidx.annotation.MainThread;
 import androidx.annotation.WorkerThread;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Single;
 
 public abstract class Dispatcher<T> {
     /*@WorkerThread
@@ -10,7 +14,12 @@ public abstract class Dispatcher<T> {
     @MainThread
     protected abstract boolean shouldFetch(T t);*/
 
+    //Using Observable to Publish Result
+    public Single<T> loadFromDatabase() {
+        return null;
+    }
+
     @MainThread
-    protected abstract T loadFromDb();
+    protected abstract Single<T> load();
 
 }

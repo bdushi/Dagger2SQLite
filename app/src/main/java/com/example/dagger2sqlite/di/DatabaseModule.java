@@ -21,6 +21,18 @@ import javax.inject.Singleton;
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
+import io.reactivex.Flowable;
+import io.reactivex.FlowableEmitter;
+import io.reactivex.FlowableOnSubscribe;
+import io.reactivex.Maybe;
+import io.reactivex.MaybeEmitter;
+import io.reactivex.MaybeOnSubscribe;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Single;
+import io.reactivex.SingleEmitter;
+import io.reactivex.SingleOnSubscribe;
 
 import static com.example.dagger2sqlite.database.UserHelper.CREATE_USER_TABLE;
 import static com.example.dagger2sqlite.database.UserHelper.INSERT_USER;
@@ -107,49 +119,100 @@ public abstract class DatabaseModule {
 
     @Singleton
     @Provides
-    public static UserDao provideUserDao(final SQLiteDatabase sqLiteDatabase) {
+    public static UserDao provideUserDao(final SQLiteDatabase sqLiteDatabase, final  AppExecutors appExecutors) {
         return new UserDao() {
             @Override
-            public long insertUser(final User user) {
-                return bindUser(sqLiteDatabase.compileStatement(INSERT_USER), user);
+            public Maybe<Long> insertUser(final User user) {
+                return Maybe.create(new MaybeOnSubscribe<Long>() {
+                    @Override
+                    public void subscribe(MaybeEmitter<Long> e) throws Exception {
+                        e.onSuccess(bindUser(sqLiteDatabase.compileStatement(INSERT_USER), user));
+                    }
+                });
             }
 
             @Override
-            public long insertUsers(User... users) {
-                long id = 0;
-                for(User user: users) {
-                    id = bindUser(sqLiteDatabase.compileStatement(INSERT_USER), user);
-                }
-                return id;
+            public Observable<Long> insertUsers(final User... users) {
+                return Observable.create(new ObservableOnSubscribe<Long>() {
+                    @Override
+                    public void subscribe(ObservableEmitter<Long> e) throws Exception {
+                        for(User user: users) {
+                            e.onNext(bindUser(sqLiteDatabase.compileStatement(INSERT_USER), user));
+                        }
+                    }
+                });
             }
 
             @Override
-            public long insertUsers(List<User> users) {
-                long id = 0;
-                for(User user: users) {
-                    id = bindUser(sqLiteDatabase.compileStatement(INSERT_USER), user);
-                }
-                return id;
+            public Observable<Long> insertUsers(final List<User> users) {
+                return Observable.create(new ObservableOnSubscribe<Long>() {
+                    @Override
+                    public void subscribe(ObservableEmitter<Long> e) throws Exception {
+                        for(User user: users) {
+                            e.onNext(bindUser(sqLiteDatabase.compileStatement(INSERT_USER), user));
+                        }
+                    }
+                });
             }
 
             @Override
-            public void deleteUser(int id) {
-                delete(sqLiteDatabase, id);
+            public Single<Integer> deleteUser(final int id) {
+                return Single.create(new SingleOnSubscribe<Integer>() {
+                    @Override
+                    public void subscribe(final SingleEmitter<Integer> e) {
+                        appExecutors.diskIO().execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                e.onSuccess(delete(sqLiteDatabase, id));
+                            }
+                        });
+                    }
+                });
             }
 
             @Override
-            public void updateUser(User user) {
-                update(sqLiteDatabase, user);
+            public Single<Integer> updateUser(final User user) {
+                return Single.create(new SingleOnSubscribe<Integer>() {
+                    @Override
+                    public void subscribe(final SingleEmitter<Integer> e) {
+                        appExecutors.diskIO().execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                e.onSuccess(update(sqLiteDatabase, user));
+                            }
+                        });
+                    }
+                });
             }
 
             @Override
-            public List<User> users() {
-                return UserHelper.users(sqLiteDatabase);
+            public Single<List<User>> users() {
+                return Single.create(new SingleOnSubscribe<List<User>>() {
+                    @Override
+                    public void subscribe(final SingleEmitter<List<User>> e) {
+                        appExecutors.diskIO().execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                e.onSuccess(UserHelper.users(sqLiteDatabase));
+                            }
+                        });
+                    }
+                });
             }
 
             @Override
-            public User getUser(int id) {
-                return user(sqLiteDatabase, id);
+            public Single<User> getUser(final int id) {
+                return Single.create(new SingleOnSubscribe<User>() {
+                    @Override
+                    public void subscribe(final SingleEmitter<User> e) {
+                        appExecutors.diskIO().execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                e.onSuccess(user(sqLiteDatabase, id));
+                            }
+                        });
+                    }
+                });
             }
         };
     }
