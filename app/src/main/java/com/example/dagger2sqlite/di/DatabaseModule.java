@@ -46,6 +46,12 @@ public abstract class DatabaseModule {
 
     @Provides
     @Singleton
+    public static String providesDatabaseName() {
+        return "demo";
+    }
+
+    @Provides
+    @Singleton
     public static SharedPreferences providesSharedPreferences(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
@@ -71,8 +77,8 @@ public abstract class DatabaseModule {
 
     @Provides
     @Singleton
-    public static SQLiteOpenHelper providesDatabaseHelper(Context context) {
-        return new SQLiteOpenHelper(context, "demo", null, 1) {
+    public static SQLiteOpenHelper providesDatabaseHelper(Context context, String databaseName) {
+        return new SQLiteOpenHelper(context, databaseName, null, 1) {
 
             @Override
             public void onCreate(SQLiteDatabase db) {
