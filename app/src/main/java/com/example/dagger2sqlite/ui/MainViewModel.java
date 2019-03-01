@@ -29,6 +29,7 @@ public class MainViewModel extends ViewModel {
     public void insert(User user) {
         userRepository.insertUser(user);
     }
+
     public void insert(List<User> users) {
         userRepository.insertUsers(users).subscribe(new Consumer<Long>() {
             @Override

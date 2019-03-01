@@ -10,6 +10,7 @@ import io.reactivex.functions.Consumer;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.dagger2sqlite.AppExecutors;
 import com.example.dagger2sqlite.R;
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         }, new Consumer<Throwable>() {
             @Override
             public void accept(Throwable throwable) {
-
+                Log.i(MainViewModel.class.getName(), throwable.getMessage());
             }
         });
 

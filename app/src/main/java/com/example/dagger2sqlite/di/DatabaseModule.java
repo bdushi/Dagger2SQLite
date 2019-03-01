@@ -113,14 +113,14 @@ public abstract class DatabaseModule {
 
     @Singleton
     @Provides
-    public static UserDao provideUserDao(final SQLiteDatabase sqLiteDatabase, final  AppExecutors appExecutors) {
+    public static UserDao provideUserDao(final SQLiteDatabase sqLite, final  AppExecutors appExecutors) {
         return new UserDao() {
             @Override
             public Maybe<Long> insertUser(final User user) {
                 return Maybe.create(new MaybeOnSubscribe<Long>() {
                     @Override
                     public void subscribe(MaybeEmitter<Long> e) throws Exception {
-                        e.onSuccess(bindUser(sqLiteDatabase.compileStatement(INSERT_USER), user));
+                        e.onSuccess(bindUser(sqLite.compileStatement(INSERT_USER), user));
                     }
                 });
             }
@@ -131,7 +131,7 @@ public abstract class DatabaseModule {
                     @Override
                     public void subscribe(ObservableEmitter<Long> e) throws Exception {
                         for(User user: users) {
-                            e.onNext(bindUser(sqLiteDatabase.compileStatement(INSERT_USER), user));
+                            e.onNext(bindUser(sqLite.compileStatement(INSERT_USER), user));
                         }
                     }
                 });
@@ -143,7 +143,7 @@ public abstract class DatabaseModule {
                     @Override
                     public void subscribe(ObservableEmitter<Long> e) throws Exception {
                         for(User user: users) {
-                            e.onNext(bindUser(sqLiteDatabase.compileStatement(INSERT_USER), user));
+                            e.onNext(bindUser(sqLite.compileStatement(INSERT_USER), user));
                         }
                     }
                 });
@@ -153,15 +153,34 @@ public abstract class DatabaseModule {
             public Single<Integer> deleteUser(final int id) {
                 return Single.create(new SingleOnSubscribe<Integer>() {
                     @Override
-                    public void subscribe(final SingleEmitter<Integer> e) {
+                    public void subscribe(final SingleEmitter<Integer> e) throws Exception {
                         appExecutors.diskIO().execute(new Runnable() {
                             @Override
                             public void run() {
-                                e.onSuccess(delete(sqLiteDatabase, id));
+                                sqLite.beginTransaction();
+                                try {
+                                    e.onSuccess(delete(sqLite, id));
+                                    sqLite.setTransactionSuccessful();
+                                } finally {
+                                    sqLite.endTransaction();
+                                }
                             }
                         });
                     }
                 });
+                /*return Single.fromCallable(new Callable<Integer>() {
+                    @Override
+                    public Integer call() throws Exception {
+                        sqLite.beginTransaction();
+                        try {
+                            int result = delete(sqLite, id);
+                            sqLite.setTransactionSuccessful();
+                            return result;
+                        } finally {
+                            sqLite.endTransaction();
+                        }
+                    }
+                });*/
             }
 
             @Override
@@ -172,7 +191,7 @@ public abstract class DatabaseModule {
                         appExecutors.diskIO().execute(new Runnable() {
                             @Override
                             public void run() {
-                                e.onSuccess(update(sqLiteDatabase, user));
+                                e.onSuccess(update(sqLite, user));
                             }
                         });
                     }
@@ -183,11 +202,19 @@ public abstract class DatabaseModule {
             public Single<List<User>> users() {
                 return Single.create(new SingleOnSubscribe<List<User>>() {
                     @Override
-                    public void subscribe(final SingleEmitter<List<User>> e) {
+                    public void subscribe(final SingleEmitter<List<User>> e) throws Exception {
                         appExecutors.diskIO().execute(new Runnable() {
                             @Override
                             public void run() {
-                                e.onSuccess(UserHelper.users(sqLiteDatabase));
+                                sqLite.beginTransaction();
+                                try {
+                                    e.onSuccess(UserHelper.users(sqLite));
+                                    sqLite.setTransactionSuccessful();
+                                } catch (Exception ex) {
+                                    e.onError(ex);
+                                } finally {
+                                    sqLite.endTransaction();
+                                }
                             }
                         });
                     }
@@ -202,7 +229,7 @@ public abstract class DatabaseModule {
                         appExecutors.diskIO().execute(new Runnable() {
                             @Override
                             public void run() {
-                                e.onSuccess(user(sqLiteDatabase, id));
+                                e.onSuccess(user(sqLite, id));
                             }
                         });
                     }
