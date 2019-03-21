@@ -8,11 +8,13 @@ import com.example.dagger2sqlite.model.User;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import androidx.lifecycle.ViewModel;
 import io.reactivex.Single;
 import io.reactivex.functions.Consumer;
 
+@Singleton
 public class MainViewModel extends ViewModel {
 
     private final UserRepository userRepository;
